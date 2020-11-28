@@ -42,13 +42,16 @@ class CSV
       def initialize(*args)
         super
         @keeps = []
+        @input = args[1]
       end
 
       def each_line(row_separator)
         position = pos
+        @input.pos = position
         rest.each_line(row_separator) do |line|
           position += line.bytesize
           self.pos = position
+          @input.pos = position
           yield(line)
         end
       end
@@ -756,7 +759,7 @@ class CSV
               raise MalformedCSVError.new(message, @lineno + index + 1)
             end
           end
-          Scanner.new(string)
+          Scanner.new(string, @input)
         else
           inputs = @samples.collect do |sample|
             StringIO.new(sample)

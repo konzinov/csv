@@ -316,7 +316,7 @@ line,4,jkl
   # non-seekable input stream for testing https://github.com/ruby/csv/issues/44
   class DummyIO
     extend Forwardable
-    def_delegators :@io, :gets, :read, :pos, :eof?  # no seek or rewind!
+    def_delegators :@io, :gets, :read, :pos, :eof?, :pos= # no seek or rewind!
     def initialize(data)
       @io = StringIO.new(data)
     end
